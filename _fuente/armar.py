@@ -15,7 +15,7 @@ import json, os, re, html
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PAGINAS = os.path.join(RAIZ, "_fuente", "paginas")
 SITIO = "https://dukkhaoverflow.com"
-VERSION_RECURSOS = "20261027"
+VERSION_RECURSOS = "20261027b"
 
 MENU = [
     ("inicio", "/", "Inicio"),

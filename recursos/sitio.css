@@ -191,3 +191,7 @@ details.desplegable > div { padding: 0 18px 18px; color: var(--tenue); display: 
 details.expansion.oculta > summary { cursor: pointer; font-family: var(--mono); font-size: 13px; color: var(--oro); }
 kbd { font-family: var(--mono); font-size: .85em; padding: 1px 6px; border: 1px solid var(--linea); border-bottom-width: 2px; background: var(--fondo); color: var(--texto); }
 .capitulo details.desplegable > summary { font-size: 15px; letter-spacing: .04em; }
+
+/* --- Teaser --- */
+.video-teaser { display: grid; gap: 8px; padding-top: 8px; padding-bottom: 8px; }
+.video-teaser video { width: 100%; height: auto; display: block; background: #000; border: 1px solid var(--linea); aspect-ratio: 16 / 9; }

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /partida/
+Sitemap: https://dukkhaoverflow.com/sitemap.xml

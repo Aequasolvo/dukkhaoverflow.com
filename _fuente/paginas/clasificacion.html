@@ -1,0 +1,53 @@
+<!--{"titulo": "Clasificación", "descripcion": "Las almas más peligrosas del Samsara: clasificación de Karma, Mérito, bajas y récords del Abismo de Dukkha Overflow.", "menu": "clasificacion"}-->
+<main class="envoltura pagina">
+  <div class="cabeza">
+    <span class="etiqueta">Registros Akáshicos</span>
+    <h1>Clasificación</h1>
+    <p>Una sola liga. El Karma sale de la arena; el Mérito, del Abismo. Solo se muestra el nombre que cada alma eligió en el juego; quien oculta su perfil aparece como «Alma anónima».</p>
+  </div>
+  <p class="aviso" data-sin-api>La clasificación no está disponible en este momento. Vuelve en un rato.</p>
+  <div data-requiere-api hidden style="display:grid; gap:18px">
+    <div class="pestanas" role="tablist">
+      <button role="tab" data-tabla="karma" aria-selected="true">Karma</button>
+      <button role="tab" data-tabla="merito" aria-selected="false">Mérito</button>
+      <button role="tab" data-tabla="bajas" aria-selected="false">Bajas</button>
+      <button role="tab" data-tabla="abismo" aria-selected="false">Abismo (mejor tiempo)</button>
+    </div>
+    <form id="buscar" class="formulario" style="grid-template-columns: 1fr auto; max-width: 480px; align-items: end">
+      <div class="campo"><label for="b-nombre">Buscar un alma por su nombre</label><input id="b-nombre" maxlength="12" pattern="[A-Za-z0-9_]{1,12}" placeholder="Nombre en el juego" required></div>
+      <button class="boton" type="submit">Ver perfil</button>
+    </form>
+    <div class="tabla-envoltura"><table class="tabla"><thead id="cabeza"></thead><tbody id="filas"><tr><td class="cargando">Cargando…</td></tr></tbody></table></div>
+    <p class="dato">Se actualiza cada minuto. Las cuentas suspendidas no aparecen.</p>
+  </div>
+</main>
+<script>
+const COLUMNAS = {
+  karma: [['Karma', f => Dukkha.num(f.karma)], ['Nivel', f => f.nivel_karma], ['Bajas', f => Dukkha.num(f.bajas)], ['Jefes', f => Dukkha.num(f.jefes)]],
+  merito: [['Mérito', f => Dukkha.num(f.merito)], ['Nivel', f => f.nivel_merito], ['Karma', f => Dukkha.num(f.karma)]],
+  bajas: [['Bajas', f => Dukkha.num(f.bajas)], ['Envases', f => Dukkha.num(f.bajas_vacios)], ['Jefes', f => Dukkha.num(f.jefes)], ['Karma', f => Dukkha.num(f.karma)]],
+  abismo: [['Tiempo', f => Dukkha.duracion(f.segundos)]]
+};
+async function cargar(tabla) {
+  document.querySelectorAll('[data-tabla]').forEach(b => b.setAttribute('aria-selected', b.dataset.tabla === tabla ? 'true' : 'false'));
+  const cols = COLUMNAS[tabla];
+  document.getElementById('cabeza').innerHTML = `<tr><th>#</th><th>Alma</th>${cols.map(c => `<th class="num">${c[0]}</th>`).join('')}</tr>`;
+  const cuerpo = document.getElementById('filas');
+  cuerpo.innerHTML = `<tr><td colspan="${cols.length + 2}" class="cargando">Cargando…</td></tr>`;
+  try {
+    const r = await Dukkha.api(`/publico/clasificacion?tabla=${tabla}&limite=100`);
+    cuerpo.innerHTML = r.filas.length ? r.filas.map(f => `<tr class="top${f.puesto}"><td class="puesto">${f.puesto}</td><td>${Dukkha.nombre(f.nombre)}${f.fundador ? '<span class="insignia" title="Jugó durante la alpha">1.ª gen.</span>' : ''}</td>${cols.map(c => `<td class="num">${c[1](f)}</td>`).join('')}</tr>`).join('')
+      : `<tr><td colspan="${cols.length + 2}" class="cargando">${tabla === 'abismo' ? 'Nadie ha completado el Abismo todavía.' : 'Todavía no hay nadie aquí.'}</td></tr>`;
+  } catch (e) {
+    cuerpo.innerHTML = `<tr><td colspan="${cols.length + 2}" class="cargando">No se pudo cargar. Prueba en un rato.</td></tr>`;
+  }
+  history.replaceState(null, '', tabla === 'karma' ? location.pathname : `?tabla=${tabla}`);
+}
+document.addEventListener('DOMContentLoaded', async () => {
+  document.querySelectorAll('[data-tabla]').forEach(b => b.addEventListener('click', () => cargar(b.dataset.tabla)));
+  document.getElementById('buscar').addEventListener('submit', (e) => { e.preventDefault(); location.href = '/perfil/?n=' + encodeURIComponent(document.getElementById('b-nombre').value.trim()); });
+  if (!(await Dukkha.apiLista)) return;
+  const pedida = Dukkha.parametro('tabla');
+  cargar(COLUMNAS[pedida] ? pedida : 'karma');
+});
+</script>

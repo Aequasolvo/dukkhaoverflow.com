@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Perfil de un alma · Dukkha Overflow</title>
+<meta name="description" content="Karma, Mérito, títulos, Cicatrices y récords de un alma del Samsara.">
+<meta property="og:title" content="Perfil de un alma · Dukkha Overflow">
+<meta property="og:description" content="Karma, Mérito, títulos, Cicatrices y récords de un alma del Samsara.">
+<meta property="og:image" content="https://dukkhaoverflow.com/img/hero.jpg">
+<meta property="og:url" content="https://dukkhaoverflow.com/perfil/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://dukkhaoverflow.com/perfil/">
+<link rel="icon" href="/img/icono.png">
+<link rel="apple-touch-icon" href="/img/icono-apple.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/recursos/sitio.css?v=20261027">
+<script src="/recursos/sitio.js?v=20261027" defer></script>
+</head>
+<body>
+<nav class="barra" aria-label="Principal">
+  <div class="envoltura">
+    <a class="marca" href="/">DUKKHA <b>OVERFLOW</b></a>
+    <div class="menu"><a href="/">Inicio</a><a href="/clasificacion/" aria-current="page" data-requiere-api hidden>Clasificación</a><a href="/caidos/" data-requiere-api hidden>Muro de caídos</a><a href="/trajes/">Trajes</a><a href="/codice/">Códice</a><a href="/novedades/">Novedades</a><a href="/soporte/">Soporte</a><a href="/prensa/">Prensa</a></div>
+    <a class="estado-pildora" href="/estado/" data-requiere-api hidden title="Estado de los servidores"><i></i><span>Servidores…</span></a>
+  </div>
+</nav>
+<main class="envoltura pagina">
+  <span class="migas"><a href="/clasificacion/">Clasificación</a> / perfil</span>
+  <p class="aviso" data-sin-api>Los perfiles no están disponibles en este momento. Vuelve en un rato.</p>
+  <div id="perfil" data-requiere-api hidden style="display:grid; gap:28px"><p class="cargando">Cargando…</p></div>
+</main>
+<script>
+const RAREZA = { comun: '#cfd3da', raro: '#5ec8ff', epico: '#c27dff', legendario: '#ffc94a' };
+const TIER = { 1: 'Tier I', 2: 'Tier II', 3: 'Tier III', 4: 'Tier IV', 5: 'Tier V' };
+document.addEventListener('DOMContentLoaded', async () => {
+  if (!(await Dukkha.apiLista)) return;
+  const caja = document.getElementById('perfil');
+  const n = (Dukkha.parametro('n') || '').trim();
+  const noEsta = (texto) => { caja.innerHTML = `<div class="cabeza"><h1>Alma no encontrada</h1><p>${texto}</p></div><a href="/clasificacion/">Volver a la clasificación</a>`; };
+  if (!/^[A-Za-z0-9_]{1,12}$/.test(n)) return noEsta('Escribe un nombre del juego (letras, números y guion bajo, hasta 12).');
+  let p;
+  try { p = await Dukkha.api('/publico/perfil/' + encodeURIComponent(n)); }
+  catch (e) { caja.innerHTML = '<p class="aviso error">No se pudo cargar el perfil. Prueba en un rato.</p>'; return; }
+  if (!p.encontrado) return noEsta(`No hay un alma pública llamada «${Dukkha.esc(n)}». Puede que no exista o que haya ocultado su perfil.`);
+  document.title = `${p.nombre} · Dukkha Overflow`;
+  const titulos = p.titulos.length ? p.titulos.map(t => `<span class="insignia" style="color:${RAREZA[t.rareza] || '#cfd3da'}; border-color:currentColor; margin:0 8px 8px 0; display:inline-block">${Dukkha.esc(t.texto)}</span>`).join('') : '<span class="dato">Sin títulos todavía.</span>';
+  const cic = p.cicatrices.map(c => `<li style="display:flex; justify-content:space-between; gap:12px; padding:8px 0; border-bottom:1px solid var(--linea)"><span>${c.titulo ? Dukkha.esc(c.titulo) : '<span class="anonimo">Cicatriz cifrada</span>'}</span><span class="dato">${TIER[c.tier] || ''}</span></li>`).join('');
+  const a = p.abismo || {};
+  caja.innerHTML = `
+    <div class="cabeza">
+      <span class="etiqueta">Alma #${Dukkha.num(p.puesto_karma)} en Karma${p.desde ? ' · en el Samsara desde ' + Dukkha.esc(p.desde) : ''}</span>
+      <h1>${Dukkha.esc(p.nombre)}${p.fundador ? '<span class="insignia" title="Jugó durante la alpha">Primera Generación</span>' : ''}</h1>
+      <div>${titulos}</div>
+    </div>
+    <dl class="cifras" style="margin:0">
+      <div class="cifra"><dt>Karma</dt><dd>${Dukkha.num(p.karma)}</dd><small>nivel ${p.nivel_karma}</small></div>
+      <div class="cifra"><dt>Mérito</dt><dd>${Dukkha.num(p.merito)}</dd><small>nivel ${p.nivel_merito}</small></div>
+      <div class="cifra"><dt>Bajas</dt><dd>${Dukkha.num(p.bajas)}</dd><small>${Dukkha.num(p.bajas_vacios)} Envases</small></div>
+      <div class="cifra"><dt>Muertes</dt><dd>${Dukkha.num(p.muertes)}</dd><small>${p.muertes ? 'B/M ' + (p.bajas / p.muertes).toFixed(2) : '&nbsp;'}</small></div>
+      <div class="cifra"><dt>Jefes</dt><dd>${Dukkha.num(p.jefes)}</dd><small>&nbsp;</small></div>
+      <div class="cifra"><dt>Marcas en la pared</dt><dd>${Dukkha.num(p.marcas)}</dd><small>días jugados</small></div>
+    </dl>
+    <section style="display:grid; gap:14px">
+      <h2 style="font-size:24px">Abismo</h2>
+      <dl class="cifras" style="margin:0">
+        <div class="cifra"><dt>Sector más hondo</dt><dd>${a.etapa_max || 0}</dd><small>&nbsp;</small></div>
+        <div class="cifra"><dt>Descensos completos</dt><dd>${Dukkha.num(a.completas)}</dd><small>&nbsp;</small></div>
+        <div class="cifra"><dt>Mara derrotado</dt><dd>${Dukkha.num(a.mara)}</dd><small>veces</small></div>
+        <div class="cifra"><dt>Mejor tiempo</dt><dd>${a.mejor_tiempo ? Dukkha.duracion(a.mejor_tiempo) : '—'}</dd><small>&nbsp;</small></div>
+      </dl>
+    </section>
+    <section style="display:grid; gap:14px">
+      <h2 style="font-size:24px">Cicatrices Kármicas <span class="dato">${p.cicatrices.length} de ${p.total_cicatrices}</span></h2>
+      ${cic ? `<ul style="list-style:none; margin:0; padding:0; max-width:640px">${cic}</ul>` : '<p class="dato">Todavía no tiene Cicatrices.</p>'}
+    </section>
+    <p class="dato">¿Eres tú y no quieres aparecer aquí? Apaga «Perfil público en la web» en AJUSTES del juego o <a href="/soporte/#privacidad">pídenoslo</a>.</p>`;
+});
+</script>
+
+<footer class="envoltura pie">
+  <div class="filas">
+    <span>Contacto: <span class="correo">contacto@dukkhaoverflow.com</span></span>
+    <a href="/soporte/">Soporte</a>
+    <a href="/prensa/">Prensa y creadores</a>
+    <a href="/estado/">Estado de los servidores</a>
+    <a href="/legal/">Privacidad y términos</a>
+  </div>
+  <p>© 2026 Dukkha Overflow. Steam y su logo son marcas de Valve Corporation.</p>
+</footer>
+</body>
+</html>

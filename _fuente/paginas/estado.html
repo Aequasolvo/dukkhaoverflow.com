@@ -1,0 +1,37 @@
+<!--{"titulo": "Estado de los servidores", "descripcion": "¿Está funcionando Dukkha Overflow? Estado de los servidores y jugadores conectados.", "menu": ""}-->
+<main class="envoltura pagina">
+  <div class="cabeza">
+    <span class="etiqueta">Servidores de São Paulo</span>
+    <h1>Estado de los servidores</h1>
+    <p>Si no puedes entrar al juego, mira aquí primero. Se revisa solo cada 30 segundos.</p>
+  </div>
+  <div id="estado" style="display:grid; gap:18px">
+    <p class="cargando">Consultando…</p>
+  </div>
+  <div class="tarjeta">
+    <h3>¿Está todo en línea y aun así no entras?</h3>
+    <p>Reinicia Steam y el juego. Si sigue fallando, <a href="/soporte/">cuéntanos qué pasa</a> con tu versión y lo que muestra la pantalla.</p>
+  </div>
+</main>
+<script>
+async function revisar() {
+  const caja = document.getElementById('estado');
+  let e = null;
+  try { e = await Dukkha.api('/publico/estado', { tiempo: 8000 }); } catch (err) { }
+  if (!e) {
+    caja.innerHTML = `<p class="aviso error"><b>No pudimos contactar al servidor.</b> Puede ser un mantenimiento o un problema de conexión. Si dura más de unos minutos, escríbenos a contacto@dukkhaoverflow.com.</p>`;
+    return;
+  }
+  const fila = (ok, texto, detalle) => `<div class="cifra" style="grid-template-columns:auto 1fr; align-items:center; gap:14px"><span class="estado-pildora ${ok ? 'en-linea' : 'caido'}" style="font-size:0"><i></i><span></span></span><div><dt>${texto}</dt><dd style="font-size:20px">${detalle}</dd></div></div>`;
+  const j = e.jugadores || {};
+  caja.innerHTML = `
+    <p class="aviso" style="border-left-color:${e.en_linea ? '#4ade80' : '#f87171'}"><b>${e.en_linea ? 'Todo funciona.' : 'Hay un problema: algunos servicios no responden.'}</b> Revisado ${new Date(e.revisado).toLocaleTimeString('es-CL')}.</p>
+    <dl class="cifras" style="margin:0">
+      ${fila(e.base, 'Cuentas y progreso', e.base ? 'En línea' : 'Sin respuesta')}
+      ${fila(e.master, 'Arena oficial (lobby)', e.master ? 'En línea' : 'Apagada')}
+      <div class="cifra"><dt>Jugadores ahora</dt><dd>${Dukkha.num((j.lobby || 0) + (j.arenas || 0))}</dd><small>${Dukkha.num(j.lobby)} en el lobby · ${Dukkha.num(j.arenas)} en arenas</small></div>
+    </dl>
+    <p class="dato">Las partidas con amigos (Simulaciones) y el Abismo van por la red de Steam: pueden funcionar aunque la arena oficial esté apagada.</p>`;
+}
+document.addEventListener('DOMContentLoaded', () => { revisar(); setInterval(revisar, 30000); });
+</script>

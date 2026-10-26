@@ -1,0 +1,26 @@
+<!--{"titulo": "Novedades", "descripcion": "Lo nuevo en cada versión de Dukkha Overflow.", "menu": "novedades"}-->
+<main class="envoltura pagina">
+  <div class="cabeza">
+    <span class="etiqueta">Bitácora</span>
+    <h1>Novedades</h1>
+    <p>Lo que cambia en cada versión. Las notas completas también están en la <a href="https://steamcommunity.com/app/5358240">comunidad de Steam</a>.</p>
+  </div>
+  <div id="desde-juego" data-requiere-api hidden></div>
+  <div>
+    <div class="novedad"><span class="dato">alpha-0.1.45 · 26-10-2026</span><p>Dominio propio (dukkhaoverflow.com) y correo nuevo de contacto. Arreglos en la Prisión kármica y en las Quimeras.</p></div>
+    <div class="novedad"><span class="dato">alpha-0.1.44 · 25-10-2026</span><p>Muros que se rompen, el Bastión abismal, faros y lluvia binaria en la arena. Mara en sus formas y el Culto al Iluminado. Marcas en la pared y auras.</p></div>
+    <div class="novedad"><span class="dato">alpha-0.1.41 · 19-10-2026</span><p>Envases Vacíos en el tablero e indicador de bajas.</p></div>
+  </div>
+</main>
+<script>
+// Las novedades que se publican en el juego (panel → Novedades), en el idioma de la página
+const formato = (t) => Dukkha.esc(t).replace(/\[b\](.*?)\[\/b\]/g, '<b>$1</b>').replace(/\[color=#[0-9a-fA-F]{3,8}\](.*?)\[\/color\]/g, '$1').replace(/\n/g, '<br>');
+document.addEventListener('DOMContentLoaded', async () => {
+  if (!(await Dukkha.apiLista)) return;
+  try {
+    const r = await Dukkha.api('/publico/novedades');
+    document.getElementById('desde-juego').innerHTML = r.novedades.map(n => `
+      <article class="novedad"><span class="dato">${Dukkha.esc(n.fecha)}</span><div style="display:grid; gap:6px"><h3>${Dukkha.esc((n.titulo && n.titulo.es) || '')}</h3><p style="color:var(--tenue)">${formato((n.texto && n.texto.es) || '')}</p></div></article>`).join('');
+  } catch (e) { }
+});
+</script>

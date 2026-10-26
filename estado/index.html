@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Estado de los servidores · Dukkha Overflow</title>
+<meta name="description" content="¿Está funcionando Dukkha Overflow? Estado de los servidores y jugadores conectados.">
+<meta property="og:title" content="Estado de los servidores · Dukkha Overflow">
+<meta property="og:description" content="¿Está funcionando Dukkha Overflow? Estado de los servidores y jugadores conectados.">
+<meta property="og:image" content="https://dukkhaoverflow.com/img/hero.jpg">
+<meta property="og:url" content="https://dukkhaoverflow.com/estado/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://dukkhaoverflow.com/estado/">
+<link rel="icon" href="/img/icono.png">
+<link rel="apple-touch-icon" href="/img/icono-apple.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/recursos/sitio.css?v=20261027">
+<script src="/recursos/sitio.js?v=20261027" defer></script>
+</head>
+<body>
+<nav class="barra" aria-label="Principal">
+  <div class="envoltura">
+    <a class="marca" href="/">DUKKHA <b>OVERFLOW</b></a>
+    <div class="menu"><a href="/">Inicio</a><a href="/clasificacion/" data-requiere-api hidden>Clasificación</a><a href="/caidos/" data-requiere-api hidden>Muro de caídos</a><a href="/trajes/">Trajes</a><a href="/codice/">Códice</a><a href="/novedades/">Novedades</a><a href="/soporte/">Soporte</a><a href="/prensa/">Prensa</a></div>
+    <a class="estado-pildora" href="/estado/" data-requiere-api hidden title="Estado de los servidores"><i></i><span>Servidores…</span></a>
+  </div>
+</nav>
+<main class="envoltura pagina">
+  <div class="cabeza">
+    <span class="etiqueta">Servidores de São Paulo</span>
+    <h1>Estado de los servidores</h1>
+    <p>Si no puedes entrar al juego, mira aquí primero. Se revisa solo cada 30 segundos.</p>
+  </div>
+  <div id="estado" style="display:grid; gap:18px">
+    <p class="cargando">Consultando…</p>
+  </div>
+  <div class="tarjeta">
+    <h3>¿Está todo en línea y aun así no entras?</h3>
+    <p>Reinicia Steam y el juego. Si sigue fallando, <a href="/soporte/">cuéntanos qué pasa</a> con tu versión y lo que muestra la pantalla.</p>
+  </div>
+</main>
+<script>
+async function revisar() {
+  const caja = document.getElementById('estado');
+  let e = null;
+  try { e = await Dukkha.api('/publico/estado', { tiempo: 8000 }); } catch (err) { }
+  if (!e) {
+    caja.innerHTML = `<p class="aviso error"><b>No pudimos contactar al servidor.</b> Puede ser un mantenimiento o un problema de conexión. Si dura más de unos minutos, escríbenos a contacto@dukkhaoverflow.com.</p>`;
+    return;
+  }
+  const fila = (ok, texto, detalle) => `<div class="cifra" style="grid-template-columns:auto 1fr; align-items:center; gap:14px"><span class="estado-pildora ${ok ? 'en-linea' : 'caido'}" style="font-size:0"><i></i><span></span></span><div><dt>${texto}</dt><dd style="font-size:20px">${detalle}</dd></div></div>`;
+  const j = e.jugadores || {};
+  caja.innerHTML = `
+    <p class="aviso" style="border-left-color:${e.en_linea ? '#4ade80' : '#f87171'}"><b>${e.en_linea ? 'Todo funciona.' : 'Hay un problema: algunos servicios no responden.'}</b> Revisado ${new Date(e.revisado).toLocaleTimeString('es-CL')}.</p>
+    <dl class="cifras" style="margin:0">
+      ${fila(e.base, 'Cuentas y progreso', e.base ? 'En línea' : 'Sin respuesta')}
+      ${fila(e.master, 'Arena oficial (lobby)', e.master ? 'En línea' : 'Apagada')}
+      <div class="cifra"><dt>Jugadores ahora</dt><dd>${Dukkha.num((j.lobby || 0) + (j.arenas || 0))}</dd><small>${Dukkha.num(j.lobby)} en el lobby · ${Dukkha.num(j.arenas)} en arenas</small></div>
+    </dl>
+    <p class="dato">Las partidas con amigos (Simulaciones) y el Abismo van por la red de Steam: pueden funcionar aunque la arena oficial esté apagada.</p>`;
+}
+document.addEventListener('DOMContentLoaded', () => { revisar(); setInterval(revisar, 30000); });
+</script>
+
+<footer class="envoltura pie">
+  <div class="filas">
+    <span>Contacto: <span class="correo">contacto@dukkhaoverflow.com</span></span>
+    <a href="/soporte/">Soporte</a>
+    <a href="/prensa/">Prensa y creadores</a>
+    <a href="/estado/">Estado de los servidores</a>
+    <a href="/legal/">Privacidad y términos</a>
+  </div>
+  <p>© 2026 Dukkha Overflow. Steam y su logo son marcas de Valve Corporation.</p>
+</footer>
+</body>
+</html>

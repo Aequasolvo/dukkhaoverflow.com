@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tu partida · Dukkha Overflow</title>
+<meta name="description" content="Una partida de Dukkha Overflow, compartida desde el juego.">
+<meta property="og:title" content="Tu partida · Dukkha Overflow">
+<meta property="og:description" content="Una partida de Dukkha Overflow, compartida desde el juego.">
+<meta property="og:image" content="https://dukkhaoverflow.com/img/hero.jpg">
+<meta property="og:url" content="https://dukkhaoverflow.com/partida/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://dukkhaoverflow.com/partida/">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/img/icono.png">
+<link rel="apple-touch-icon" href="/img/icono-apple.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/recursos/sitio.css?v=20261027">
+<script src="/recursos/sitio.js?v=20261027" defer></script>
+</head>
+<body>
+<nav class="barra" aria-label="Principal">
+  <div class="envoltura">
+    <a class="marca" href="/">DUKKHA <b>OVERFLOW</b></a>
+    <div class="menu"><a href="/">Inicio</a><a href="/clasificacion/" data-requiere-api hidden>Clasificación</a><a href="/caidos/" data-requiere-api hidden>Muro de caídos</a><a href="/trajes/">Trajes</a><a href="/codice/">Códice</a><a href="/novedades/">Novedades</a><a href="/soporte/">Soporte</a><a href="/prensa/">Prensa</a></div>
+    <a class="estado-pildora" href="/estado/" data-requiere-api hidden title="Estado de los servidores"><i></i><span>Servidores…</span></a>
+  </div>
+</nav>
+<main class="envoltura pagina">
+  <p class="aviso" data-sin-api>Esta partida no se puede mostrar en este momento. Vuelve en un rato.</p>
+  <div id="tarjeta" data-requiere-api hidden><p class="cargando">Cargando…</p></div>
+  <div class="botones">
+    <a class="boton principal" href="https://store.steampowered.com/app/5358240/">Juega Dukkha Overflow: agrégalo en Steam</a>
+  </div>
+</main>
+<script>
+const MODO = { arena: 'Arena oficial', simulacion: 'Simulación con amigos', abismo: 'Descenso al Abismo' };
+const SLUG = (s) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/ /g, '_');
+const TRAJES = ['despertar_arcano', 'acolito_del_vacio', 'hereje_karmico', 'emisario_del_caos', 'deidad_sintetica', 'despojo_mortal', 'monje_sin_rostro', 'devi_coronada', 'penitente_de_ceniza', 'penitente_de_humo', 'axon', 'dendrita', 'fuego_frio', 'prisma_roto', 'anodo', 'catodo', 'cobre_vivo', 'verdin', 'rey_de_brasas', 'reina_de_hueso', 'relicario_de_oro', 'relicario_de_turquesa', 'oni_carcelero', 'hannya'];
+document.addEventListener('DOMContentLoaded', async () => {
+  if (!(await Dukkha.apiLista)) return;
+  const caja = document.getElementById('tarjeta');
+  const id = Dukkha.parametro('id') || '';
+  let p = null;
+  if (/^[A-Za-z0-9_-]{12}$/.test(id)) { try { p = await Dukkha.api('/publico/partida/' + id); } catch (e) { } }
+  if (!p || !p.encontrada) { caja.innerHTML = '<div class="cabeza"><h1>Partida no encontrada</h1><p>El enlace está incompleto o la partida ya no existe.</p></div>'; return; }
+  const d = p.datos || {};
+  const cifra = (t, v) => v === undefined ? '' : `<div class="cifra"><dt>${t}</dt><dd>${v}</dd></div>`;
+  const traje = TRAJES.includes(SLUG(d.traje)) ? SLUG(d.traje) : null;
+  document.title = `${p.nombre || 'Un alma'} · ${MODO[p.modo] || 'Partida'} · Dukkha Overflow`;
+  caja.innerHTML = `
+    <article class="tarjeta ${traje ? 'partida-con-traje' : ''}" style="gap:24px; padding:28px; border-color: var(--oro)">
+      <div style="display:grid; gap:16px; align-content:start; min-width:0">
+        <span class="etiqueta">${MODO[p.modo] || 'Partida'} · ${new Date(p.creada).toLocaleDateString('es-CL')}</span>
+        <h1 style="font-size:clamp(28px,5vw,48px)">${p.nombre ? Dukkha.esc(p.nombre) : '<span class="anonimo">Alma anónima</span>'}${d.victoria ? ' <span style="color:var(--oro)">venció</span>' : ''}</h1>
+        ${d.titulo ? `<span class="insignia" style="margin:0; width:fit-content">${Dukkha.esc(d.titulo)}</span>` : ''}
+        <dl class="cifras" style="margin:0">
+          ${cifra('Bajas', d.bajas !== undefined ? Dukkha.num(d.bajas) : undefined)}
+          ${cifra('Envases', d.bajas_vacios !== undefined ? Dukkha.num(d.bajas_vacios) : undefined)}
+          ${cifra('Muertes', d.muertes !== undefined ? Dukkha.num(d.muertes) : undefined)}
+          ${cifra('Jefes', d.jefes !== undefined ? Dukkha.num(d.jefes) : undefined)}
+          ${cifra('Ego', d.ego !== undefined ? Dukkha.num(d.ego) : undefined)}
+          ${cifra('Sector', d.sector !== undefined ? d.sector : undefined)}
+          ${cifra('Puesto', d.puesto !== undefined ? `${d.puesto}${d.jugadores ? ' de ' + d.jugadores : ''}` : undefined)}
+          ${cifra('Duración', d.segundos !== undefined ? Dukkha.duracion(d.segundos) : undefined)}
+        </dl>
+        ${d.traje ? `<p class="dato">Traje: ${Dukkha.esc(d.traje)}</p>` : ''}
+        ${p.nombre ? `<a href="/perfil/?n=${encodeURIComponent(p.nombre)}">Ver el perfil de ${Dukkha.esc(p.nombre)} →</a>` : ''}
+      </div>
+      ${traje ? `<img src="/img/trajes/${traje}_1.webp" alt="" style="width:100%; height:auto; align-self:end">` : ''}
+    </article>`;
+});
+</script>
+
+<footer class="envoltura pie">
+  <div class="filas">
+    <span>Contacto: <span class="correo">contacto@dukkhaoverflow.com</span></span>
+    <a href="/soporte/">Soporte</a>
+    <a href="/prensa/">Prensa y creadores</a>
+    <a href="/estado/">Estado de los servidores</a>
+    <a href="/legal/">Privacidad y términos</a>
+  </div>
+  <p>© 2026 Dukkha Overflow. Steam y su logo son marcas de Valve Corporation.</p>
+</footer>
+</body>
+</html>

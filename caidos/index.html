@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Muro de caídos · Dukkha Overflow</title>
+<meta name="description" content="Lo que pasa en la arena del Samsara: almas cosechadas, Envases destruidos y jefes caídos.">
+<meta property="og:title" content="Muro de caídos · Dukkha Overflow">
+<meta property="og:description" content="Lo que pasa en la arena del Samsara: almas cosechadas, Envases destruidos y jefes caídos.">
+<meta property="og:image" content="https://dukkhaoverflow.com/img/hero.jpg">
+<meta property="og:url" content="https://dukkhaoverflow.com/caidos/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://dukkhaoverflow.com/caidos/">
+<link rel="icon" href="/img/icono.png">
+<link rel="apple-touch-icon" href="/img/icono-apple.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/recursos/sitio.css?v=20261027">
+<script src="/recursos/sitio.js?v=20261027" defer></script>
+</head>
+<body>
+<nav class="barra" aria-label="Principal">
+  <div class="envoltura">
+    <a class="marca" href="/">DUKKHA <b>OVERFLOW</b></a>
+    <div class="menu"><a href="/">Inicio</a><a href="/clasificacion/" data-requiere-api hidden>Clasificación</a><a href="/caidos/" aria-current="page" data-requiere-api hidden>Muro de caídos</a><a href="/trajes/">Trajes</a><a href="/codice/">Códice</a><a href="/novedades/">Novedades</a><a href="/soporte/">Soporte</a><a href="/prensa/">Prensa</a></div>
+    <a class="estado-pildora" href="/estado/" data-requiere-api hidden title="Estado de los servidores"><i></i><span>Servidores…</span></a>
+  </div>
+</nav>
+<main class="envoltura pagina">
+  <div class="cabeza">
+    <span class="etiqueta">Registro kármico</span>
+    <h1>Muro de caídos</h1>
+    <p>Cada alma que cae en la arena queda escrita aquí. El muro va <b>unos minutos atrasado</b> a propósito: nadie lo puede usar para cazar a otro en vivo.</p>
+  </div>
+  <p class="aviso" data-sin-api>El muro no está disponible en este momento. Vuelve en un rato.</p>
+  <div data-requiere-api hidden style="display:grid; gap:24px">
+    <dl class="cifras" style="margin:0">
+      <div class="cifra"><dt>Almas cosechadas</dt><dd id="c-bajas">—</dd><small>últimas 24 h</small></div>
+      <div class="cifra"><dt>Envases destruidos</dt><dd id="c-envases">—</dd><small>últimas 24 h</small></div>
+      <div class="cifra"><dt>Jefes caídos</dt><dd id="c-jefes">—</dd><small>últimas 24 h</small></div>
+    </dl>
+    <ol id="muro" style="list-style:none; margin:0; padding:0; display:grid"><li class="cargando">Cargando…</li></ol>
+    <p class="dato">Se actualiza solo cada minuto.</p>
+  </div>
+</main>
+<script>
+const FRASE = {
+  bajas: (n) => n === 1 ? 'cosechó un alma' : `cosechó ${n} almas`,
+  envases: (n) => n === 1 ? 'destruyó un Envase Vacío' : `destruyó ${n} Envases Vacíos`,
+  jefes: (n) => n === 1 ? 'derribó a un jefe' : `derribó a ${n} jefes`
+};
+const COLOR = { bajas: 'var(--oro)', envases: 'var(--cian)', jefes: 'var(--violeta)' };
+async function cargar() {
+  try {
+    const r = await Dukkha.api('/publico/caidos');
+    const u = r.ultimas_24h || {};
+    document.getElementById('c-bajas').textContent = Dukkha.num(u.bajas);
+    document.getElementById('c-envases').textContent = Dukkha.num(u.envases);
+    document.getElementById('c-jefes').textContent = Dukkha.num(u.jefes);
+    document.getElementById('muro').innerHTML = r.eventos.length ? r.eventos.map(e => `
+      <li style="display:grid; grid-template-columns: 110px 1fr; gap:14px; padding:12px 0; border-bottom:1px solid var(--linea)">
+        <span class="dato">${Dukkha.hace(e.fecha)}</span>
+        <span><span style="color:${COLOR[e.tipo]}">▮</span> ${Dukkha.nombre(e.nombre)} ${FRASE[e.tipo] ? FRASE[e.tipo](e.cantidad) : ''} en la arena</span>
+      </li>`).join('') : '<li class="cargando">La arena está en silencio. Por ahora.</li>';
+  } catch (e) {
+    document.getElementById('muro').innerHTML = '<li class="cargando">No se pudo cargar. Prueba en un rato.</li>';
+  }
+}
+document.addEventListener('DOMContentLoaded', async () => {
+  if (!(await Dukkha.apiLista)) return;
+  cargar();
+  setInterval(cargar, 60000);
+});
+</script>
+
+<footer class="envoltura pie">
+  <div class="filas">
+    <span>Contacto: <span class="correo">contacto@dukkhaoverflow.com</span></span>
+    <a href="/soporte/">Soporte</a>
+    <a href="/prensa/">Prensa y creadores</a>
+    <a href="/estado/">Estado de los servidores</a>
+    <a href="/legal/">Privacidad y términos</a>
+  </div>
+  <p>© 2026 Dukkha Overflow. Steam y su logo son marcas de Valve Corporation.</p>
+</footer>
+</body>
+</html>

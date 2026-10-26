@@ -1,0 +1,47 @@
+<!--{"titulo": "Muro de caídos", "descripcion": "Lo que pasa en la arena del Samsara: almas cosechadas, Envases destruidos y jefes caídos.", "menu": "caidos"}-->
+<main class="envoltura pagina">
+  <div class="cabeza">
+    <span class="etiqueta">Registro kármico</span>
+    <h1>Muro de caídos</h1>
+    <p>Cada alma que cae en la arena queda escrita aquí. El muro va <b>unos minutos atrasado</b> a propósito: nadie lo puede usar para cazar a otro en vivo.</p>
+  </div>
+  <p class="aviso" data-sin-api>El muro no está disponible en este momento. Vuelve en un rato.</p>
+  <div data-requiere-api hidden style="display:grid; gap:24px">
+    <dl class="cifras" style="margin:0">
+      <div class="cifra"><dt>Almas cosechadas</dt><dd id="c-bajas">—</dd><small>últimas 24 h</small></div>
+      <div class="cifra"><dt>Envases destruidos</dt><dd id="c-envases">—</dd><small>últimas 24 h</small></div>
+      <div class="cifra"><dt>Jefes caídos</dt><dd id="c-jefes">—</dd><small>últimas 24 h</small></div>
+    </dl>
+    <ol id="muro" style="list-style:none; margin:0; padding:0; display:grid"><li class="cargando">Cargando…</li></ol>
+    <p class="dato">Se actualiza solo cada minuto.</p>
+  </div>
+</main>
+<script>
+const FRASE = {
+  bajas: (n) => n === 1 ? 'cosechó un alma' : `cosechó ${n} almas`,
+  envases: (n) => n === 1 ? 'destruyó un Envase Vacío' : `destruyó ${n} Envases Vacíos`,
+  jefes: (n) => n === 1 ? 'derribó a un jefe' : `derribó a ${n} jefes`
+};
+const COLOR = { bajas: 'var(--oro)', envases: 'var(--cian)', jefes: 'var(--violeta)' };
+async function cargar() {
+  try {
+    const r = await Dukkha.api('/publico/caidos');
+    const u = r.ultimas_24h || {};
+    document.getElementById('c-bajas').textContent = Dukkha.num(u.bajas);
+    document.getElementById('c-envases').textContent = Dukkha.num(u.envases);
+    document.getElementById('c-jefes').textContent = Dukkha.num(u.jefes);
+    document.getElementById('muro').innerHTML = r.eventos.length ? r.eventos.map(e => `
+      <li style="display:grid; grid-template-columns: 110px 1fr; gap:14px; padding:12px 0; border-bottom:1px solid var(--linea)">
+        <span class="dato">${Dukkha.hace(e.fecha)}</span>
+        <span><span style="color:${COLOR[e.tipo]}">▮</span> ${Dukkha.nombre(e.nombre)} ${FRASE[e.tipo] ? FRASE[e.tipo](e.cantidad) : ''} en la arena</span>
+      </li>`).join('') : '<li class="cargando">La arena está en silencio. Por ahora.</li>';
+  } catch (e) {
+    document.getElementById('muro').innerHTML = '<li class="cargando">No se pudo cargar. Prueba en un rato.</li>';
+  }
+}
+document.addEventListener('DOMContentLoaded', async () => {
+  if (!(await Dukkha.apiLista)) return;
+  cargar();
+  setInterval(cargar, 60000);
+});
+</script>

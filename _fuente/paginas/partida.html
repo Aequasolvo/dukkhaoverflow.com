@@ -1,0 +1,46 @@
+<!--{"titulo": "Tu partida", "descripcion": "Una partida de Dukkha Overflow, compartida desde el juego.", "menu": "", "noindex": true}-->
+<main class="envoltura pagina">
+  <p class="aviso" data-sin-api>Esta partida no se puede mostrar en este momento. Vuelve en un rato.</p>
+  <div id="tarjeta" data-requiere-api hidden><p class="cargando">Cargando…</p></div>
+  <div class="botones">
+    <a class="boton principal" href="https://store.steampowered.com/app/5358240/">Juega Dukkha Overflow: agrégalo en Steam</a>
+  </div>
+</main>
+<script>
+const MODO = { arena: 'Arena oficial', simulacion: 'Simulación con amigos', abismo: 'Descenso al Abismo' };
+const SLUG = (s) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/ /g, '_');
+const TRAJES = ['despertar_arcano', 'acolito_del_vacio', 'hereje_karmico', 'emisario_del_caos', 'deidad_sintetica', 'despojo_mortal', 'monje_sin_rostro', 'devi_coronada', 'penitente_de_ceniza', 'penitente_de_humo', 'axon', 'dendrita', 'fuego_frio', 'prisma_roto', 'anodo', 'catodo', 'cobre_vivo', 'verdin', 'rey_de_brasas', 'reina_de_hueso', 'relicario_de_oro', 'relicario_de_turquesa', 'oni_carcelero', 'hannya'];
+document.addEventListener('DOMContentLoaded', async () => {
+  if (!(await Dukkha.apiLista)) return;
+  const caja = document.getElementById('tarjeta');
+  const id = Dukkha.parametro('id') || '';
+  let p = null;
+  if (/^[A-Za-z0-9_-]{12}$/.test(id)) { try { p = await Dukkha.api('/publico/partida/' + id); } catch (e) { } }
+  if (!p || !p.encontrada) { caja.innerHTML = '<div class="cabeza"><h1>Partida no encontrada</h1><p>El enlace está incompleto o la partida ya no existe.</p></div>'; return; }
+  const d = p.datos || {};
+  const cifra = (t, v) => v === undefined ? '' : `<div class="cifra"><dt>${t}</dt><dd>${v}</dd></div>`;
+  const traje = TRAJES.includes(SLUG(d.traje)) ? SLUG(d.traje) : null;
+  document.title = `${p.nombre || 'Un alma'} · ${MODO[p.modo] || 'Partida'} · Dukkha Overflow`;
+  caja.innerHTML = `
+    <article class="tarjeta ${traje ? 'partida-con-traje' : ''}" style="gap:24px; padding:28px; border-color: var(--oro)">
+      <div style="display:grid; gap:16px; align-content:start; min-width:0">
+        <span class="etiqueta">${MODO[p.modo] || 'Partida'} · ${new Date(p.creada).toLocaleDateString('es-CL')}</span>
+        <h1 style="font-size:clamp(28px,5vw,48px)">${p.nombre ? Dukkha.esc(p.nombre) : '<span class="anonimo">Alma anónima</span>'}${d.victoria ? ' <span style="color:var(--oro)">venció</span>' : ''}</h1>
+        ${d.titulo ? `<span class="insignia" style="margin:0; width:fit-content">${Dukkha.esc(d.titulo)}</span>` : ''}
+        <dl class="cifras" style="margin:0">
+          ${cifra('Bajas', d.bajas !== undefined ? Dukkha.num(d.bajas) : undefined)}
+          ${cifra('Envases', d.bajas_vacios !== undefined ? Dukkha.num(d.bajas_vacios) : undefined)}
+          ${cifra('Muertes', d.muertes !== undefined ? Dukkha.num(d.muertes) : undefined)}
+          ${cifra('Jefes', d.jefes !== undefined ? Dukkha.num(d.jefes) : undefined)}
+          ${cifra('Ego', d.ego !== undefined ? Dukkha.num(d.ego) : undefined)}
+          ${cifra('Sector', d.sector !== undefined ? d.sector : undefined)}
+          ${cifra('Puesto', d.puesto !== undefined ? `${d.puesto}${d.jugadores ? ' de ' + d.jugadores : ''}` : undefined)}
+          ${cifra('Duración', d.segundos !== undefined ? Dukkha.duracion(d.segundos) : undefined)}
+        </dl>
+        ${d.traje ? `<p class="dato">Traje: ${Dukkha.esc(d.traje)}</p>` : ''}
+        ${p.nombre ? `<a href="/perfil/?n=${encodeURIComponent(p.nombre)}">Ver el perfil de ${Dukkha.esc(p.nombre)} →</a>` : ''}
+      </div>
+      ${traje ? `<img src="/img/trajes/${traje}_1.webp" alt="" style="width:100%; height:auto; align-self:end">` : ''}
+    </article>`;
+});
+</script>

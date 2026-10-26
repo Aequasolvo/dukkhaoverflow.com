@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Dukkha Overflow: shooter multijugador con arena PvP y roguelite cooperativo. Agrégalo a tu lista de deseos en Steam.">
+<meta property="og:title" content="Dukkha Overflow">
+<meta property="og:description" content="La rueda no se detiene. Shooter multijugador en Steam.">
+<meta property="og:image" content="https://dukkhaoverflow.com/img/hero.jpg">
+<meta property="og:url" content="https://dukkhaoverflow.com/">
+<title>Dukkha Overflow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Una sola columna oscura tipo "visor de preso": bandas a lo ancho, contenido en 1080px, oro (Custodio) y cian (Samsara) del logo */
+:root {
+  --fondo: #07080d;
+  --panel: #10131c;
+  --linea: #232a3a;
+  --texto: #e7e4dc;
+  --tenue: #9aa0ad;
+  --oro: #e2b45a;
+  --cian: #39d8e8;
+  --violeta: #9b6bff;
+  --display: "Chakra Petch", "Segoe UI", system-ui, sans-serif;
+  --cuerpo: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  color-scheme: dark;
+}
+*,*::before,*::after{box-sizing:border-box} body { margin:0; background: var(--fondo); color: var(--texto); font-family: var(--cuerpo); font-size: 16px; line-height: 1.6; }
+.envoltura { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.borrador { background: var(--oro); color: #1a1408; font-family: var(--mono); font-size: 13px; }
+.borrador .envoltura { padding-block: 8px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1.15; }
+h2 { font-size: clamp(26px, 4vw, 38px); }
+h3 { font-size: 20px; }
+p { margin: 0; }
+a { color: var(--cian); }
+a:focus-visible, .boton:focus-visible { outline: 2px solid var(--cian); outline-offset: 3px; }
+.etiqueta { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--cian); }
+
+/* Portada */
+.portada { position: relative; border-bottom: 1px solid var(--linea); }
+.portada img { display: block; width: 100%; max-height: 640px; object-fit: cover; object-position: center top; }
+.portada .velo { position: absolute; inset: auto 0 0 0; height: 45%; background: linear-gradient(transparent, var(--fondo)); pointer-events: none; }
+.llamado { padding-block: 28px 56px; display: grid; gap: 20px; }
+.llamado h1 { font-size: clamp(30px, 5.4vw, 56px); max-width: 18ch; }
+.llamado h1 em { font-style: normal; color: var(--oro); }
+.llamado p { color: var(--tenue); max-width: 60ch; font-size: 18px; }
+.botones { display: flex; flex-wrap: wrap; gap: 12px; }
+.boton { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; font-family: var(--display); font-weight: 700; font-size: 17px; letter-spacing: .04em; text-decoration: none; border: 1px solid var(--cian); color: var(--cian); clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%); }
+.boton.principal { background: var(--cian); color: #04161a; }
+.boton:hover { filter: brightness(1.15); }
+.dato { font-family: var(--mono); font-size: 13px; color: var(--tenue); }
+
+/* Secciones */
+.seccion { padding-block: 64px; border-bottom: 1px solid var(--linea); }
+.seccion > .envoltura { display: grid; gap: 28px; }
+.cabeza { display: grid; gap: 10px; max-width: 65ch; }
+.cabeza p { color: var(--tenue); }
+
+.modos { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.modo { background: var(--panel); border: 1px solid var(--linea); padding: 22px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.modo .etiqueta { color: var(--oro); }
+.modo p { color: var(--tenue); font-size: 15px; }
+
+.dos { display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; align-items: center; }
+.dos img { width: 100%; display: block; border: 1px solid var(--linea); }
+.lista { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
+.lista li { display: grid; grid-template-columns: 110px 1fr; gap: 14px; }
+.lista b { font-family: var(--display); color: var(--oro); font-weight: 600; }
+.lista span { color: var(--tenue); }
+
+.galeria { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.galeria figure { margin: 0; background: var(--panel); border: 1px solid var(--linea); display: grid; min-width: 0; }
+.galeria .marco { aspect-ratio: 3 / 4; max-width: 100%; overflow: hidden; position: relative; }
+.galeria img { width: 100%; height: 100%; object-fit: cover; display: block; filter: contrast(1.05); }
+.galeria .marco::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 40%, transparent 45%, rgba(7,8,13,.85)); }
+.galeria figcaption { padding: 14px 16px; display: grid; gap: 4px; }
+.galeria figcaption b { font-family: var(--display); font-size: 17px; }
+.galeria figcaption span { color: var(--tenue); font-size: 14px; }
+
+.prensa { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0; border: 1px solid var(--linea); }
+.prensa div { padding: 18px 20px; border-right: 1px solid var(--linea); border-bottom: 1px solid var(--linea); display: grid; gap: 4px; min-width: 0; }
+.prensa dt { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--tenue); }
+.prensa dd { margin: 0; font-variant-numeric: tabular-nums; }
+.pendiente { color: var(--oro); font-family: var(--mono); font-size: 13px; }
+
+.novedad { display: grid; grid-template-columns: 140px 1fr; gap: 18px; padding-block: 16px; border-top: 1px solid var(--linea); }
+.novedad .dato { color: var(--cian); }
+
+.pie { padding-block: 40px 56px; display: grid; gap: 18px; color: var(--tenue); font-size: 14px; }
+.pie .filas { display: flex; flex-wrap: wrap; gap: 10px 28px; }
+.correo { font-family: var(--mono); color: var(--texto); user-select: all; }
+
+@media (max-width: 760px) {
+  .dos { grid-template-columns: 1fr; }
+  .galeria { grid-template-columns: 1fr 1fr; }
+  .novedad, .lista li { grid-template-columns: 1fr; gap: 4px; }
+}
+@media (max-width: 460px) { .galeria { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: no-preference) {
+  .boton { transition: filter .15s; }
+}
+</style>
+</head>
+<body>
+
+
+<header class="portada">
+  <img src="img/hero.jpg" alt="Key art de Dukkha Overflow: el logo y Mara, el Custodio Corrupto, sobre un preso con máscara.">
+  <div class="velo"></div>
+</header>
+
+<section class="envoltura llamado">
+  <span class="etiqueta">Shooter multijugador · Alpha en Steam</span>
+  <h1>La rueda no se detiene. <em>Tú tampoco.</em></h1>
+  <p>Eres un alma atrapada en el Samsara, la prisión digital de Mara. Pelea en la arena, junta Ego, baja al Abismo con tus amigos y conviértete en el preso más peligroso de la simulación. Nadie sale de aquí.</p>
+  <div class="botones">
+    <a class="boton principal" href="https://store.steampowered.com/app/5358240/">Agregar a la lista de deseos en Steam</a>
+    <a class="boton" href="#prensa">Kit de prensa</a>
+  </div>
+  <span class="dato">Windows · Español, English, Português · Próximamente</span>
+</section>
+
+<section class="seccion">
+  <div class="envoltura">
+    <div class="cabeza">
+      <span class="etiqueta">Desde la Terminal se baja a tres lugares</span>
+      <h2>Tres formas de seguir girando</h2>
+    </div>
+    <div class="modos">
+      <article class="modo">
+        <span class="etiqueta">Samsara oficial</span>
+        <h3>La gran arena</h3>
+        <p>PvP en un servidor autoritativo, una sola liga. Tu Ego se cristaliza en Karma y tu Mérito queda en la clasificación. Si faltan almas, el Orquestador rellena con Envases Vacíos.</p>
+      </article>
+      <article class="modo">
+        <span class="etiqueta">Abismo</span>
+        <h3>Roguelite PvE</h3>
+        <p>Solo o en cooperativo. Baja sector por sector entre Sombras, nodos y jefes. La dificultad sube con cada jugador que se une.</p>
+      </article>
+      <article class="modo">
+        <span class="etiqueta">Simulaciones P2P</span>
+        <h3>Arenas clandestinas</h3>
+        <p>Partidas privadas con tus amigos, con mutadores y sin consecuencias en tu historial.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="seccion">
+  <div class="envoltura dos">
+    <img src="img/dupla.jpg" alt="Dos trajes de presos: una figura de cristal violeta con corona y un guerrero de cristales de colores.">
+    <div style="display:grid; gap:22px; min-width:0">
+      <div class="cabeza">
+        <span class="etiqueta">Cómo se juega</span>
+        <h2>Hackea la prisión desde adentro</h2>
+      </div>
+      <ul class="lista">
+        <li><b>Ego</b><span>La moneda que nace del conflicto. Mara se alimenta de ella y tú la necesitas para avanzar.</span></li>
+        <li><b>Mandalas</b><span>Exploits de la simulación: Paz Absoluta, Caos Primordial y Prisión Kármica.</span></li>
+        <li><b>Karmic Avatar</b><span>Tu forma de combate definitiva cuando la Trascendencia se desborda.</span></li>
+        <li><b>Trajes</b><span>Envases sintéticos para tu alma, con su propia historia.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="seccion">
+  <div class="envoltura">
+    <div class="cabeza">
+      <span class="etiqueta">Lo que te espera</span>
+      <h2>Los carceleros</h2>
+      <p>Lo que no tiene alma no sangra: se deshace en ceniza y vuelve a la línea de ensamblaje.</p>
+    </div>
+    <div class="galeria">
+      <figure><div class="marco"><img src="img/mara.jpg" alt="Mara en su forma final."></div><figcaption><b>Mara</b><span>Uno con tres rostros. Cerró las puertas del Nirvana.</span></figcaption></figure>
+      <figure><div class="marco"><img src="img/persecutor.jpg" alt="El Persecutor Kármico, un autómata dorado de cuatro patas."></div><figcaption><b>Persecutor Kármico</b><span>Castiga a quien farmea. Te encuentra.</span></figcaption></figure>
+      <figure><div class="marco"><img src="img/quimera.jpg" alt="La Quimera Kármica."></div><figcaption><b>Quimera Kármica</b><span>Almas que se rindieron, en chasis de serie.</span></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="seccion" id="prensa">
+  <div class="envoltura">
+    <div class="cabeza">
+      <span class="etiqueta">Prensa y creadores</span>
+      <h2>Kit de prensa</h2>
+      <p>¿Escribes sobre juegos, haces streams o videos? Pídenos el kit de prensa (logo, cápsulas, capturas en alta y tráiler) o una key a <span class="correo">contacto@dukkhaoverflow.com</span>.</p>
+    </div>
+    <dl class="prensa" style="margin:0">
+      <div><dt>Desarrollador</dt><dd>Dukkha Overflow (estudio independiente)</dd></div>
+      <div><dt>Plataforma</dt><dd>PC (Windows) en Steam</dd></div>
+      <div><dt>Lanzamiento</dt><dd>Próximamente · alpha cerrada</dd></div>
+      <div><dt>Idiomas</dt><dd>Español, English, Português (BR)</dd></div>
+      <div><dt>Motor</dt><dd>Godot 4</dd></div>
+      <div><dt>Contacto</dt><dd>contacto@dukkhaoverflow.com</dd></div>
+      <div><dt>Uso de IA</dt><dd>Arte y modelos con apoyo de Gemini y Meshy</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="seccion">
+  <div class="envoltura">
+    <div class="cabeza">
+      <span class="etiqueta">Novedades</span>
+      <h2>Bitácora de la alpha</h2>
+    </div>
+    <div>
+      <div class="novedad"><span class="dato">alpha-0.1.44 · 25-10-2026</span><p>Muros que se rompen, el Bastión abismal, faros y lluvia binaria en la arena.</p></div>
+      <div class="novedad"><span class="dato">alpha-0.1.41 · 19-10-2026</span><p>Envases Vacíos en el tablero e indicador de bajas.</p></div>
+      <div class="novedad"><span class="dato">Steam</span><p>Notas completas en la <a href="https://steamcommunity.com/app/5358240">comunidad de Steam</a>.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer class="envoltura pie">
+  <div class="filas">
+    <span>Contacto: <span class="correo">contacto@dukkhaoverflow.com</span></span>
+    <a href="legal/">Privacidad y términos</a>
+  </div>
+  <p>© 2026 Dukkha Overflow. Steam y su logo son marcas de Valve Corporation.</p>
+</footer>
+
+</body>
+</html>

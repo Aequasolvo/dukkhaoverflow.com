@@ -40,8 +40,11 @@ a:focus-visible, .boton:focus-visible { outline: 2px solid var(--cian); outline-
 .etiqueta { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--cian); }
 
 /* Portada */
-.portada { position: relative; border-bottom: 1px solid var(--linea); }
-.portada img { display: block; width: 100%; max-height: 640px; object-fit: cover; object-position: center top; }
+.portada { position: relative; overflow: hidden; border-bottom: 1px solid var(--linea); background: var(--fondo); }
+.portada .relleno { position: absolute; inset: -40px; background: url("img/hero.jpg") center top / cover; filter: blur(28px) brightness(.45); }
+.portada img { position: relative; display: block; width: 100%; max-width: 1232px; margin: 0 auto; max-height: 640px; object-fit: cover; object-position: center top;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+@media (max-width: 1232px) { .portada img { -webkit-mask-image: none; mask-image: none; } }
 .portada .velo { position: absolute; inset: auto 0 0 0; height: 45%; background: linear-gradient(transparent, var(--fondo)); pointer-events: none; }
 .llamado { padding-block: 28px 56px; display: grid; gap: 20px; }
 .llamado h1 { font-size: clamp(30px, 5.4vw, 56px); max-width: 18ch; }
@@ -108,6 +111,7 @@ a:focus-visible, .boton:focus-visible { outline: 2px solid var(--cian); outline-
 
 
 <header class="portada">
+  <div class="relleno" aria-hidden="true"></div>
   <img src="img/hero.jpg" alt="Key art de Dukkha Overflow: el logo y Mara, el Custodio Corrupto, sobre un preso con máscara.">
   <div class="velo"></div>
 </header>

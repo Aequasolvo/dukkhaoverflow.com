@@ -26,6 +26,7 @@ MENU = [
     ("novedades", "/novedades/", "Novedades"),
     ("soporte", "/soporte/", "Soporte"),
     ("prensa", "/prensa/", "Prensa"),
+    ("barras", "/barras-battle/", "Barras Battle"),
 ]
 
 
@@ -53,6 +54,7 @@ PIE = """<footer class="envoltura pie">
     <a href="/prensa/">Prensa y creadores</a>
     <a href="/estado/">Estado de los servidores</a>
     <a href="/legal/">Privacidad y términos</a>
+    <a href="/barras-battle/">Barras Battle: nuestro próximo juego</a>
   </div>
   <p>© 2026 Dukkha Overflow. Steam y su logo son marcas de Valve Corporation.</p>
 </footer>"""
@@ -122,6 +124,7 @@ def main():
             rutas.append("/" if ruta == "inicio" else f"/{ruta}/")
         print("ok", destino[len(RAIZ) + 1:])
     rutas.append("/legal/")
+    rutas.append("/barras-battle/")  # página propia del otro juego (carpeta barras-battle/, sin armar)
     with open(os.path.join(RAIZ, "sitemap.xml"), "w", encoding="utf-8") as f:
         f.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n')
         for r in rutas:

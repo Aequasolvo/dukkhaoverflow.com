@@ -189,3 +189,12 @@ h3 { font-size: 19px; font-weight: 700; }
 .visor .cerrar { position: absolute; top: 10px; right: 10px; width: 42px; height: 42px; border-radius: 50%; border: 0; background: rgba(0,0,0,.7); color: #fff; font-size: 20px; cursor: pointer; }
 
 @media (prefers-reduced-motion: reduce) { *, *::before { animation: none !important; transition: none !important; } html { scroll-behavior: auto; } }
+
+/* Momentos de la batalla */
+.galeria.momentos { grid-template-columns: repeat(4, 1fr); }
+.galeria.momentos .grande { grid-column: span 4; aspect-ratio: 21 / 9; }
+.galeria.momentos .grande span { font-size: 26px; padding: 40px 18px 14px; }
+@media (max-width: 960px) {
+  .galeria.momentos { grid-template-columns: repeat(2, 1fr); }
+  .galeria.momentos .grande { grid-column: span 2; aspect-ratio: 16 / 9; }
+}

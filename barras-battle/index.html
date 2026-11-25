@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Barras Battle: Freestyle Simulator · En desarrollo</title>
-<meta name="description" content="Batalla de gallos contra la máquina: tú rapeas con tu micrófono, el rival te responde y el público decide. Un simulador de freestyle hecho para la escena hispanohablante. En desarrollo para PC.">
+<meta name="description" content="Batalla de gallos contra la máquina: tú rapeas, el rival te responde y el jurado decide. 116 rivales de 20 países, 12 escenarios y 50 beats propios. Un simulador de freestyle hecho para la escena hispanohablante, en desarrollo para PC.">
 <meta property="og:title" content="Barras Battle: Freestyle Simulator">
 <meta property="og:description" content="Tú rapeas, el rival te responde, el público decide. Simulador de batallas de freestyle en español, en desarrollo para PC.">
 <meta property="og:image" content="https://dukkhaoverflow.com/barras-battle/img/compartir-arena.jpg">
@@ -17,8 +17,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Sedgwick+Ave+Display&family=Rubik:wght@400;500;700;800&display=swap">
-<link rel="stylesheet" href="estilo.css?v=20261112b">
-<script src="pagina.js?v=20261112" defer></script>
+<link rel="stylesheet" href="estilo.css?v=20261124">
+<script src="pagina.js?v=20261124" defer></script>
 </head>
 <body>
 
@@ -28,10 +28,11 @@
     <nav class="menu" aria-label="Secciones">
       <a href="#como">Cómo se juega</a>
       <a href="#escenarios">Escenarios</a>
+        <a href="#streaming">Ver streaming</a>
       <a href="#rivales">Rivales</a>
       <a href="#tu-mc">Tu MC</a>
       <a href="#beats">Beats</a>
-      <a href="#avance">Avance</a>
+      <a href="#avance">Estado</a>
     </nav>
     <a class="boton chico" href="#aviso">Avísame</a>
   </div>
@@ -56,186 +57,229 @@
 <section class="cifras">
   <div class="envoltura">
     <div><b>12</b><span>escenarios</span></div>
-    <div><b>57</b><span>rivales</span></div>
-    <div><b>20</b><span>países para tu MC</span></div>
-    <div><b>200+</b><span>prendas</span></div>
-    <div><b>25</b><span>beats propios</span></div>
+    <div><b>116</b><span>rivales</span></div>
+    <div><b>20</b><span>países</span></div>
+    <div><b>236</b><span>prendas</span></div>
+    <div><b>50</b><span>beats propios</span></div>
   </div>
 </section>
 
 <section class="seccion" id="como">
-  <div class="envoltura">
-    <div class="cabeza">
-      <span class="etiqueta">Cómo se juega</span>
-      <h2>Rapeas de verdad, con tu voz</h2>
-      <p>Nada de cartas ni opciones para elegir. Abres el micrófono, rimas sobre el beat y el rival te contesta a lo que dijiste.</p>
-    </div>
-    <ol class="pasos">
-      <li><b>1</b><h3>Arma la batalla</h3><p>Elige rival, escenario, beat y formato. Cada rival tiene su estilo y su punto débil.</p></li>
-      <li><b>2</b><h3>El rival tira primero</h3><p>Entra con su flow, sus muletillas y su voz, a tiempo con el beat.</p></li>
-      <li><b>3</b><h3>Te toca</h3><p>Rapeas por micrófono. Cuentan la rima, el tiempo, la réplica y el ingenio.</p></li>
-      <li><b>4</b><h3>Jurado y público</h3><p>El público reacciona en vivo y tres jueces votan. Si no se define, hay réplica.</p></li>
-    </ol>
-  </div>
-</section>
-
-<section class="seccion oscura" id="escenarios">
-  <div class="envoltura">
-    <div class="cabeza">
-      <span class="etiqueta">Escenarios</span>
-      <h2>De la micro al estadio</h2>
-      <p>Empiezas rapeando en la calle y te ganas el derecho a pisar tarimas cada vez más grandes. Cada escenario tiene su público, su host y su DJ.</p>
-    </div>
-    <div class="grupo-esc"><h3>Calle</h3>
-      <div class="galeria">
-        <button class="foto" data-grande="img/micro.webp"><img src="img/micro-800.webp" alt="Batalla dentro de un autobús" loading="lazy"><span>Autobús</span></button>
-        <button class="foto" data-grande="img/parque.webp"><img src="img/parque-800.webp" alt="Batalla en un parque de noche" loading="lazy"><span>Parque</span></button>
-        <button class="foto" data-grande="img/plaza_barrio.webp"><img src="img/plaza_barrio-800.webp" alt="Batalla en la plaza del barrio" loading="lazy"><span>Plaza</span></button>
-        <button class="foto" data-grande="img/cancha.webp"><img src="img/cancha-800.webp" alt="Batalla en una cancha de básquetbol" loading="lazy"><span>Cancha</span></button>
+      <div class="envoltura">
+        <div class="cabeza">
+          <span class="etiqueta">Cómo se juega</span>
+          <h2>Rapeas de verdad, con tu voz</h2>
+          <p>Nada de cartas ni opciones para elegir. Abres el micrófono, rimas sobre el beat y el rival te contesta a lo que dijiste. Si prefieres, también puedes escribir tus barras.</p>
+        </div>
+        <ol class="pasos">
+          <li><b>1</b><h3>Arma la batalla</h3><p>Elige rival, escenario, beat y formato. Cada rival tiene su estilo y su punto débil.</p></li>
+          <li><b>2</b><h3>El rival abre</h3><p>Entra con su flow, sus muletillas y su voz, a tiempo con el beat.</p></li>
+          <li><b>3</b><h3>Ida y vuelta</h3><p>Seis entradas de cuatro barras por lado, alternadas. Cuentan la rima, el tiempo, la respuesta y el ingenio.</p></li>
+          <li><b>4</b><h3>Jurado y público</h3><p>El público reacciona en vivo y tres jueces votan. Si el jurado no se define, hay réplica: cuatro entradas más por lado.</p></li>
+        </ol>
       </div>
-    </div>
-    <div class="grupo-esc"><h3>Under</h3>
-      <div class="galeria">
-        <button class="foto" data-grande="img/colegio.webp"><img src="img/colegio-800.webp" alt="Batalla en una sala de clases" loading="lazy"><span>Escuela</span></button>
-        <button class="foto" data-grande="img/azotea.webp"><img src="img/azotea-800.webp" alt="Batalla en una azotea al atardecer" loading="lazy"><span>Azotea</span></button>
-        <button class="foto" data-grande="img/galpon.webp"><img src="img/galpon-800.webp" alt="Batalla en un galpón de ladrillo" loading="lazy"><span>Galpón</span></button>
-        <button class="foto" data-grande="img/club.webp"><img src="img/club-800.webp" alt="Batalla en un club con pista de luces" loading="lazy"><span>Club</span></button>
+    </section>
+
+    <section class="seccion oscura" id="momentos">
+      <div class="envoltura">
+        <div class="cabeza">
+          <span class="etiqueta">En la batalla</span>
+          <h2>Así se vive una batalla</h2>
+          <p>El host la presenta, los MC se miran a la cara, el rival tira su entrada y tres jueces deciden.</p>
+        </div>
+        <div class="galeria momentos">
+          <button class="foto grande" data-grande="img/momento_cara.webp"><img src="img/momento_cara.webp" alt="Dos MC frente a frente en la cancha, con el jurado entre ellos" loading="lazy"><span>Cara a cara</span></button>
+          <button class="foto" data-grande="img/momento_host.webp"><img src="img/momento_host-800.webp" alt="El host presenta la batalla en el teatro" loading="lazy"><span>El host abre la batalla</span></button>
+          <button class="foto" data-grande="img/momento_rival.webp"><img src="img/momento_rival-800.webp" alt="Un rival rapeando en el club con el DJ y el público detrás" loading="lazy"><span>El rival tira su entrada</span></button>
+          <button class="foto" data-grande="img/momento_jueces.webp"><img src="img/momento_jueces-800.webp" alt="Tres jueces votan y los carteles con los nombres de los MC quedan en el aire" loading="lazy"><span>Tres jueces, un veredicto</span></button>
+          <button class="foto" data-grande="img/momento_preparacion.webp"><img src="img/momento_preparacion-800.webp" alt="Pantalla de preparación con beat, escenario, rival, formato y modo" loading="lazy"><span>Arma tu batalla</span></button>
+        </div>
       </div>
-    </div>
-    <div class="grupo-esc"><h3>Las grandes</h3>
-      <div class="galeria">
-        <button class="foto" data-grande="img/teatro.webp"><img src="img/teatro-800.webp" alt="Final en un teatro" loading="lazy"><span>Teatro</span></button>
-        <button class="foto" data-grande="img/set_tv.webp"><img src="img/set_tv-800.webp" alt="Batalla en un set de televisión en vivo" loading="lazy"><span>Set de TV</span></button>
-        <button class="foto" data-grande="img/arena.webp"><img src="img/arena-800.webp" alt="Batalla en una arena llena" loading="lazy"><span>Arena</span></button>
-        <button class="foto" data-grande="img/estadio.webp"><img src="img/estadio-800.webp" alt="Gran final en un estadio" loading="lazy"><span>Estadio</span></button>
+    </section>
+
+    <section class="seccion" id="escenarios">
+      <div class="envoltura">
+        <div class="cabeza">
+          <span class="etiqueta">Escenarios</span>
+          <h2>Del autobús al estadio</h2>
+          <p>Empiezas rapeando en la calle y con reputación te ganas tarimas cada vez más grandes. Cada escenario tiene su público, su host y su DJ, y su nombre cambia según tu país: el autobús es micro, colectivo, camión o guagua.</p>
+        </div>
+        <div class="grupo-esc"><h3>Calle</h3>
+          <div class="galeria">
+            <button class="foto" data-grande="img/micro.webp"><img src="img/micro-800.webp" alt="Batalla en el pasillo de un autobús con pasajeros sentados" loading="lazy"><span>Autobús</span></button>
+            <button class="foto" data-grande="img/colegio.webp"><img src="img/colegio-800.webp" alt="Batalla en una sala de clases con los alumnos bailando" loading="lazy"><span>Escuela</span></button>
+            <button class="foto" data-grande="img/azotea.webp"><img src="img/azotea-800.webp" alt="Batalla en una azotea al atardecer con guirnaldas de luces" loading="lazy"><span>Azotea</span></button>
+            <button class="foto" data-grande="img/parque.webp"><img src="img/parque-800.webp" alt="Batalla en un parque con mucho público" loading="lazy"><span>Parque</span></button>
+          </div>
+        </div>
+        <div class="grupo-esc"><h3>Barrio y under</h3>
+          <div class="galeria">
+            <button class="foto" data-grande="img/plaza_barrio.webp"><img src="img/plaza_barrio-800.webp" alt="Batalla de noche en la plaza del barrio" loading="lazy"><span>Plaza</span></button>
+            <button class="foto" data-grande="img/cancha.webp"><img src="img/cancha-800.webp" alt="Batalla en una cancha de básquetbol" loading="lazy"><span>Cancha</span></button>
+            <button class="foto" data-grande="img/galpon.webp"><img src="img/galpon-800.webp" alt="Batalla en ronda dentro de un galpón" loading="lazy"><span>Galpón</span></button>
+            <button class="foto" data-grande="img/club.webp"><img src="img/club-800.webp" alt="Batalla en un club con pista de colores y pantalla de luces" loading="lazy"><span>Club</span></button>
+          </div>
+        </div>
+        <div class="grupo-esc"><h3>Las grandes</h3>
+          <div class="galeria">
+            <button class="foto" data-grande="img/teatro.webp"><img src="img/teatro-800.webp" alt="Final en un teatro con telón rojo" loading="lazy"><span>Teatro</span></button>
+            <button class="foto" data-grande="img/set_tv.webp"><img src="img/set_tv-800.webp" alt="Batalla en un set de televisión en vivo" loading="lazy"><span>Set de TV</span></button>
+            <button class="foto" data-grande="img/arena.webp"><img src="img/arena-800.webp" alt="Batalla en una arena con las graderías llenas" loading="lazy"><span>Arena</span></button>
+            <button class="foto" data-grande="img/estadio.webp"><img src="img/estadio-800.webp" alt="Gran final en un estadio con fuegos artificiales" loading="lazy"><span>Estadio</span></button>
+          </div>
+        </div>
+        <p class="nota">Capturas del juego en desarrollo. Todo puede cambiar antes del lanzamiento.</p>
       </div>
-    </div>
-    <p class="nota">Capturas del juego en desarrollo. Todo puede cambiar antes del lanzamiento.</p>
-  </div>
-</section>
+    </section>
 
-<section class="seccion" id="momentos">
-  <div class="envoltura">
-    <div class="cabeza">
-      <span class="etiqueta">En la batalla</span>
-      <h2>Así se vive una batalla</h2>
-      <p>El host la presenta, los MC se miran a la cara, el rival tira su entrada y tres jueces deciden.</p>
-    </div>
-    <div class="galeria momentos">
-      <button class="foto grande" data-grande="img/momento_cara.webp"><img src="img/momento_cara.webp" alt="Dos MC frente a frente en la cancha, con el jurado entre ellos" loading="lazy"><span>Cara a cara</span></button>
-      <button class="foto" data-grande="img/momento_host.webp"><img src="img/momento_host-800.webp" alt="El host presenta la batalla en el teatro" loading="lazy"><span>El host abre la batalla</span></button>
-      <button class="foto" data-grande="img/momento_rival.webp"><img src="img/momento_rival-800.webp" alt="Un rival rapeando en el club con el público detrás" loading="lazy"><span>El rival tira su entrada</span></button>
-      <button class="foto" data-grande="img/momento_jueces.webp"><img src="img/momento_jueces-800.webp" alt="Tres jueces levantan sus carteles para votar" loading="lazy"><span>Tres jueces, un veredicto</span></button>
-      <button class="foto" data-grande="img/momento_preparacion.webp"><img src="img/momento_preparacion-800.webp" alt="Pantalla de preparación con beat, escenario, rival y formato" loading="lazy"><span>Arma tu batalla</span></button>
-    </div>
-  </div>
-</section>
+    <section class="seccion oscura" id="streaming">
+      <div class="envoltura dos">
+        <div class="cabeza">
+          <span class="etiqueta">Ver streaming</span>
+          <h2>Siéntate a mirar</h2>
+          <p>Elige dos rivales, el escenario, el beat y el tono, y mira cómo se miden entre ellos. Espinas, un streamer de la escena, comenta la batalla en vivo desde su ventanita, con un chat que no para.</p>
+          <p>En el chat cada país apoya a su compatriota, y al final Espinas se despide con el resultado.</p>
+        </div>
+        <div class="galeria pares">
+          <button class="foto" data-grande="img/modo_streaming.webp"><img src="img/modo_streaming-800.webp" alt="Batalla entre dos rivales en el club, con el marcador, el chat en vivo y la ventanita del streamer" loading="lazy"></button>
+          <button class="foto" data-grande="img/modo_streaming_2.webp"><img src="img/modo_streaming_2-800.webp" alt="Final de la batalla con los jueces mostrando sus carteles y el streamer despidiéndose" loading="lazy"></button>
+        </div>
+      </div>
+    </section>
 
-<section class="seccion" id="rivales">
-  <div class="envoltura dos">
-    <div class="cabeza">
-      <span class="etiqueta">Rivales</span>
-      <h2>57 rivales, cada uno con su calle</h2>
-      <p>Carniceros de sangre, ingenieros del punchline, estructuradores, musicales, chistosos y puristas del under. Cada rival tiene su personalidad, sus muletillas, sus beats favoritos y una voz propia según su país.</p>
-      <p>Van de la categoría D a la S: los primeros se ganan con oficio, los últimos te van a dar vuelta las palabras.</p>
-    </div>
-    <div class="paises">
-      <h3>Los rivales de esta primera versión vienen de</h3>
-      <ul>
-        <li>Argentina</li><li>Chile</li><li>Colombia</li><li>Cuba</li><li>España</li><li>México</li>
-        <li>Perú</li><li>Puerto Rico</li><li>Rep. Dominicana</li><li>Uruguay</li><li>Venezuela</li>
-      </ul>
-      <div class="tiers"><span>D</span><span>C</span><span>B</span><span>A</span><span>S</span></div>
-      <p class="nota"><b>Tu MC puede ser de cualquiera de los 20 países hispanohablantes</b>, y el juego se adapta: el nombre de los escenarios, la jerga y la bandera. Seguimos sumando rivales de más países.</p>
-    </div>
-  </div>
-</section>
+    <section class="seccion" id="rivales">
+      <div class="envoltura dos">
+        <div class="cabeza">
+          <span class="etiqueta">Rivales</span>
+          <h2>116 rivales, cada uno con su calle</h2>
+          <p>Carniceros de sangre, ingenieros del punchline, estructuradores, musicales, chistosos y puristas del under. Cada rival tiene su personalidad, sus muletillas, su prenda propia y una voz con su acento: chileno, español, mexicano, rioplatense o caribeño.</p>
+          <p>Van de la categoría E a la S. Cada categoría se abre al vencer a la mitad de los rivales de la anterior, así que a la S no se llega repitiendo al mismo.</p>
+          <p>En cada escenario hay un host distinto, cinco DJ se reparten las tornamesas y un jurado de tres que, en las tarimas más grandes, cede la mesa a tres invitados.</p>
+        </div>
+        <div class="paises">
+          <h3>Rivales de 20 países</h3>
+          <ul>
+            <li>Argentina</li><li>Bolivia</li><li>Chile</li><li>Colombia</li><li>Costa Rica</li>
+            <li>Cuba</li><li>Ecuador</li><li>El Salvador</li><li>España</li><li>Guatemala</li>
+            <li>Honduras</li><li>México</li><li>Nicaragua</li><li>Panamá</li><li>Paraguay</li>
+            <li>Perú</li><li>Puerto Rico</li><li>Rep. Dominicana</li><li>Uruguay</li><li>Venezuela</li>
+          </ul>
+          <div class="tiers"><span>E</span><span>D</span><span>C</span><span>B</span><span>A</span><span>S</span></div>
+          <p class="nota"><b>Tu MC puede ser de cualquiera de los 20 países</b>, y el juego se adapta: el nombre de los escenarios, la bandera, la voz y la forma de hablar.</p>
+        </div>
+      </div>
+    </section>
 
-<section class="seccion oscura" id="tu-mc">
-  <div class="envoltura dos invertida">
-    <figure class="captura"><img src="img/vestidor2.webp" alt="El vestidor de Tu MC con una MC vestida a su pinta" loading="lazy" width="1600" height="900"></figure>
-    <div class="cabeza">
-      <span class="etiqueta">Tu MC</span>
-      <h2>Crea tu MC y vístelo a tu pinta</h2>
-      <p>Más de 200 prendas entre gorras, polerones, chalecos, cadenas y zapatillas, con colores para teñir. Elige cuerpo, pelo, barba, piel y país.</p>
-      <p>Hay prendas que no se compran: se ganan. Véncele a un rival y te llevas su prenda; convence a un juez y te ganas la suya.</p>
-    </div>
-  </div>
-</section>
+    <section class="seccion oscura" id="tu-mc">
+      <div class="envoltura dos invertida">
+        <figure class="captura"><img src="img/vestidor_mc.webp" alt="El vestidor de Tu MC con un MC de gorra plana, lentes de sol, cadena y chaqueta estampada" loading="lazy" width="1600" height="900"></figure>
+        <div class="cabeza">
+          <span class="etiqueta">Tu MC</span>
+          <h2>Crea tu MC y vístelo a tu pinta</h2>
+          <p>236 prendas entre gorras, polerones, chaquetas, cadenas, lentes y zapatillas, con colores para teñir. Elige cuerpo, pelo, barba, piel y país.</p>
+          <p>Partes con lo básico y el resto se gana. Cada rival que vences te entrega su prenda propia, y los jueces, hosts y DJ también tienen las suyas.</p>
+        </div>
+      </div>
+    </section>
 
-<section class="seccion" id="beats">
-  <div class="envoltura">
-    <div class="cabeza">
-      <span class="etiqueta">Beats</span>
-      <h2>Beats hechos para el juego</h2>
-      <p>25 instrumentales propios, con el tiempo exacto para que cada barra caiga en el pulso. Escucha algunos:</p>
-    </div>
-    <div class="beats">
-      <button class="beat destacado" data-audio="audio/reggaeton_96.mp3"><i class="play" aria-hidden="true"></i><span class="genero">Reggaetón <em>★ El favorito del creador</em></span><span class="bpm">96 BPM · La menor</span></button>
-      <button class="beat" data-audio="audio/boombap_90.mp3"><i class="play" aria-hidden="true"></i><span class="genero">Boom bap</span><span class="bpm">90 BPM</span></button>
-      <button class="beat" data-audio="audio/trap_72.mp3"><i class="play" aria-hidden="true"></i><span class="genero">Trap</span><span class="bpm">72 BPM</span></button>
-      <button class="beat" data-audio="audio/drill_71.mp3"><i class="play" aria-hidden="true"></i><span class="genero">Drill</span><span class="bpm">71 BPM</span></button>
-      <button class="beat" data-audio="audio/dobletempo_86.mp3"><i class="play" aria-hidden="true"></i><span class="genero">Doble tempo</span><span class="bpm">86 BPM</span></button>
-      <button class="beat" data-audio="audio/dnb_87.mp3"><i class="play" aria-hidden="true"></i><span class="genero">Drum &amp; bass</span><span class="bpm">87 BPM</span></button>
-    </div>
-  </div>
-</section>
-
-<section class="seccion oscura" id="formatos">
-  <div class="envoltura">
-    <div class="cabeza">
-      <span class="etiqueta">Formatos y modos</span>
-      <h2>Como en las batallas de verdad</h2>
-    </div>
-    <div class="tarjetas">
-      <article class="tarjeta"><h3>Libre</h3><p>Rimas sobre lo que quieras. Ataca, responde y remata.</p></article>
-      <article class="tarjeta"><h3>Temática</h3><p>Un tema para toda la batalla, y hay que respetarlo.</p></article>
-      <article class="tarjeta"><h3>Palabras</h3><p>Una palabra obligatoria por entrada que tienes que meter en la rima.</p></article>
-      <article class="tarjeta"><h3>Réplica</h3><p>Si el jurado no se pone de acuerdo, se define en una ronda más.</p></article>
-      <article class="tarjeta"><h3>Familiar o Adultos</h3><p>Elige el tono: sin garabatos para todo público, o el freestyle como es, con groserías y humor negro.</p></article>
-      <article class="tarjeta"><h3>Sin internet</h3><p>El rival piensa y rapea en tu PC. Sin suscripción y sin pagar por batalla.</p></article>
-    </div>
-  </div>
-</section>
-
-<section class="seccion" id="avance">
-  <div class="envoltura">
-    <div class="cabeza">
-      <span class="etiqueta">Avance</span>
-      <h2>En qué va el desarrollo</h2>
-      <p>Actualizado el 12 de noviembre de 2026.</p>
-    </div>
-    <div class="avance">
-      <div class="col hecho">
-        <h3>Listo</h3>
-        <ul>
-          <li>12 escenarios con público, host y DJ</li>
-          <li>57 rivales con personalidad y categoría</li>
-          <li>Vestidor de Tu MC con más de 200 prendas</li>
-          <li>25 beats propios</li>
-          <li>Jurado de tres jueces y réplica</li>
-          <li>Motor de rimas en español</li>
+    <section class="seccion" id="beats">
+      <div class="envoltura">
+        <div class="cabeza">
+          <span class="etiqueta">Beats</span>
+          <h2>Beats hechos para el juego</h2>
+          <p>50 instrumentales propios en 15 estilos, con el tiempo exacto para que cada barra caiga en el pulso. Escucha algunos:</p>
+        </div>
+        <div class="beats">
+          <button class="beat destacado" data-audio="audio/reggaeton_96.mp3"><i class="play" aria-hidden="true"></i><span class="genero">Reggaetón <em>★ El favorito del creador</em></span><span class="bpm">96 BPM · La menor</span></button>
+          <button class="beat" data-audio="audio/boombap_90.mp3"><i class="play" aria-hidden="true"></i><span class="genero">Boom bap</span><span class="bpm">90 BPM</span></button>
+          <button class="beat" data-audio="audio/trap_72.mp3"><i class="play" aria-hidden="true"></i><span class="genero">Trap</span><span class="bpm">72 BPM</span></button>
+          <button class="beat" data-audio="audio/drill_71.mp3"><i class="play" aria-hidden="true"></i><span class="genero">Drill</span><span class="bpm">71 BPM</span></button>
+          <button class="beat" data-audio="audio/dobletempo_86.mp3"><i class="play" aria-hidden="true"></i><span class="genero">Doble tempo</span><span class="bpm">86 BPM</span></button>
+          <button class="beat" data-audio="audio/cumbia_95.mp3"><i class="play" aria-hidden="true"></i><span class="genero">Cumbia</span><span class="bpm">95 BPM</span></button>
+          <button class="beat" data-audio="audio/dembow_118.mp3"><i class="play" aria-hidden="true"></i><span class="genero">Dembow</span><span class="bpm">118 BPM</span></button>
+          <button class="beat" data-audio="audio/afro_105.mp3"><i class="play" aria-hidden="true"></i><span class="genero">Afrobeats</span><span class="bpm">105 BPM</span></button>
+          <button class="beat" data-audio="audio/gfunk_93.mp3"><i class="play" aria-hidden="true"></i><span class="genero">G-funk</span><span class="bpm">93 BPM</span></button>
+          <button class="beat" data-audio="audio/soul_82.mp3"><i class="play" aria-hidden="true"></i><span class="genero">Soul</span><span class="bpm">82 BPM</span></button>
+          <button class="beat" data-audio="audio/dancehall_100.mp3"><i class="play" aria-hidden="true"></i><span class="genero">Dancehall</span><span class="bpm">100 BPM</span></button>
+          <button class="beat" data-audio="audio/dnb_87.mp3"><i class="play" aria-hidden="true"></i><span class="genero">Drum &amp; bass</span><span class="bpm">87 BPM</span></button>
+        </div>
+        <ul class="estilos" aria-label="Estilos de beat">
+          <li>Boom bap</li><li>Trap</li><li>Drill</li><li>Doble tempo</li><li>Reggaetón</li><li>Dembow</li><li>Cumbia</li><li>Dancehall</li>
+          <li>Reggae</li><li>Afrobeats</li><li>Soul</li><li>G-funk</li><li>Grime</li><li>Drum &amp; bass</li><li>Rap rock</li>
         </ul>
       </div>
-      <div class="col curso">
-        <h3>En curso</h3>
-        <ul>
-          <li>Inteligencia del rival entrenada para el juego</li>
-          <li>Voces rapeadas por país</li>
-          <li>Pulir animaciones y baile</li>
-        </ul>
+    </section>
+
+    <section class="seccion oscura" id="tono">
+      <div class="envoltura dos">
+        <div class="cabeza">
+          <span class="etiqueta">Tono</span>
+          <h2>Tú eliges qué tan pesada se pone</h2>
+          <p><b>Familiar:</b> sin groserías, y el jurado las castiga.</p>
+          <p><b>Adultos:</b> groserías y ataques duros, como en la calle.</p>
+          <p><b>Sin filtro (+18):</b> un interruptor aparte dentro de Adultos, que viene apagado.</p>
+          <p>El ambiente sigue al tono: en Familiar el público toma energéticas y en Adultos aparece la cerveza.</p>
+        </div>
+        <figure class="captura"><img src="img/ambiente_adultos.webp" alt="Público de la azotea en tono Adultos, con latas y botellas sin marca en la mano" loading="lazy" width="1600" height="900"></figure>
       </div>
-      <div class="col proximo">
-        <h3>Después</h3>
-        <ul>
-          <li>Carrera de MC: del barrio al estadio</li>
-          <li>Más formatos de batalla</li>
-          <li>Página en Steam</li>
-        </ul>
+    </section>
+
+    <section class="seccion" id="formatos">
+      <div class="envoltura">
+        <div class="cabeza">
+          <span class="etiqueta">Formatos</span>
+          <h2>Como en las batallas de verdad</h2>
+        </div>
+        <div class="tarjetas">
+          <article class="tarjeta"><h3>Libre</h3><p>Rimas sobre lo que quieras. Ataca, responde y remata.</p></article>
+          <article class="tarjeta"><h3>Temático</h3><p>Un tema para toda la batalla, y hay que respetarlo.</p></article>
+          <article class="tarjeta"><h3>Con palabras</h3><p>Una palabra obligatoria por entrada, y tiene que ir rimando.</p></article>
+          <article class="tarjeta"><h3>Doble tempo</h3><p>En los beats de doble tempo, estrofas en cadena con rimas internas en la misma terminación.</p></article>
+          <article class="tarjeta"><h3>Réplica</h3><p>Si el jurado no se define, cuatro entradas más por lado, y ahí se decide sí o sí.</p></article>
+          <article class="tarjeta"><h3>Sin internet</h3><p>El rival piensa, rapea y canta en tu PC. Sin suscripción y sin pagar por batalla.</p></article>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
+
+    <section class="seccion oscura" id="avance">
+      <div class="envoltura">
+        <div class="cabeza">
+          <span class="etiqueta">Estado</span>
+          <h2>En qué va el desarrollo</h2>
+          <p>Al 24 de noviembre de 2026.</p>
+        </div>
+        <div class="avance">
+          <div class="col hecho">
+            <h3>Listo</h3>
+            <ul>
+              <li>12 escenarios con público, host y DJ</li>
+              <li>116 rivales en seis categorías</li>
+              <li>Carrera del autobús al estadio, con reputación</li>
+              <li>Vestidor de Tu MC con 236 prendas</li>
+              <li>50 beats propios</li>
+              <li>Jurado de tres jueces y réplica</li>
+              <li>Modo Ver streaming</li>
+              <li>Voces de rivales en cinco acentos</li>
+            </ul>
+          </div>
+          <div class="col curso">
+            <h3>Puliendo</h3>
+            <ul>
+              <li>La inteligencia del rival: sentido de las barras y doble tempo</li>
+              <li>Animaciones del público y del baile</li>
+              <li>Rendimiento en PC modestos</li>
+            </ul>
+          </div>
+          <div class="col proximo">
+            <h3>Antes del lanzamiento</h3>
+            <ul>
+              <li>Página en Steam</li>
+              <li>Fecha de lanzamiento</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
 <section class="seccion aviso" id="aviso">
   <div class="envoltura dos">

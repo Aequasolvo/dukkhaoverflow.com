@@ -198,3 +198,23 @@ h3 { font-size: 19px; font-weight: 700; }
   .galeria.momentos { grid-template-columns: repeat(2, 1fr); }
   .galeria.momentos .grande { grid-column: span 2; aspect-ratio: 16 / 9; }
 }
+
+/* Seis categorías, estilos de beat y pares de capturas */
+.tiers span:nth-child(1) { background: #c9b8ff; }
+.tiers span:nth-child(2) { background: #8fd6ff; }
+.tiers span:nth-child(3) { background: var(--verde); }
+.tiers span:nth-child(4) { background: var(--amarillo); }
+.tiers span:nth-child(5) { background: #ff8a3a; color: #1a1030; }
+.tiers span:nth-child(6) { background: var(--rosa); color: #fff; }
+.estilos { list-style: none; padding: 0; margin: 22px 0 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.estilos li { background: var(--panel); border: 1px solid var(--borde); border-radius: 999px; padding: 5px 13px; font-size: 14px; color: var(--suave); }
+.galeria.pares { grid-template-columns: 1fr; }
+.captura img { width: 100%; height: auto; }
+#tono .cabeza p b { color: var(--amarillo); }
+@media (max-width: 480px) {
+  .beats { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .beats .beat { padding: 12px; column-gap: 10px; grid-template-columns: 38px 1fr; }
+  .beats .beat .play { width: 38px; height: 38px; }
+  .beats .beat .play::before { left: 15px; top: 11px; }
+  .beats .beat .genero { font-size: 16px; }
+}
